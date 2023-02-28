@@ -3,7 +3,7 @@
 ## feature
 
 - out of the box
-- ** typescript **
+- **typescript**
 - Vue3
 - support tsx
 - eslint
