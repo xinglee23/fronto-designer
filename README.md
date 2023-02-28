@@ -1,9 +1,9 @@
-# 慕课乐高标准模版
+# A Visual Editor
 
-## 特性
-* 开箱即用
-* **typescript** 
-* Vue3
-* 支持 tsx
-* eslint
-* 简单易用可扩展
+## feature
+
+- out of the box
+- ** typescript **
+- Vue3
+- support tsx
+- eslint
