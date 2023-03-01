@@ -1,20 +1,37 @@
 <template>
-  <h1>慕课乐高标准模版</h1>
-  <ul>
-    <li>开箱即用</li>
-    <li>typescript</li>
-    <li>Vue3</li>
-    <li>支持 tsx</li>
-    <li>eslint</li>
-    <li>简单易用可扩展</li>
-  </ul>
+  <div v-if="withHeader">
+    <a-layout :style="{background: '#fff'}">
+      <a-layout-header class="header">
+        <router-link to="/">
+          <div class="page-title">Fronto</div>
+        </router-link>
+      </a-layout-header>
+      <a-layout-content>
+        <router-view></router-view>
+      </a-layout-content>
+      <a-layout-footer>Footer</a-layout-footer>
+    </a-layout>
+  </div>
+  <div v-else>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {computed, defineComponent} from 'vue';
+import {useRoute} from 'vue-router';
 
 export default defineComponent({
   name: 'App',
+  components: {},
+  setup() {
+    const route = useRoute();
+    const withHeader = computed(() => route.meta.withHeader);
+
+    return {
+      withHeader,
+    };
+  },
 });
 </script>
 
