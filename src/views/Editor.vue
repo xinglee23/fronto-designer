@@ -1,13 +1,21 @@
 <template>
   <div class="editor-wrapper">
     <a-row class="row-wrapper" type="flex" justify="center">
-      <a-col class="left" :span="6">组件</a-col>
+      <a-col :span="6">
+        <div class="left">
+          <a-tabs centered v-model:activeKey="activeKey">
+            <a-tab-pane key="1" tab="文本">Content of Tab Pane 1</a-tab-pane>
+            <a-tab-pane key="2" tab="图文" force-render
+              >Content of Tab Pane 2</a-tab-pane
+            >
+            <a-tab-pane key="3" tab="形状">Content of Tab Pane 3</a-tab-pane>
+          </a-tabs>
+        </div>
+      </a-col>
       <a-col class="center" :span="12">画布</a-col>
       <a-col class="right" :span="6">设置面板</a-col>
     </a-row>
-
     <a-dropdown>
-      <a-button>登陆信息</a-button>
       <template #overlay>
         <a-menu>
           <a-menu-item @click="login">login</a-menu-item>
@@ -55,12 +63,14 @@ export default defineComponent({
   height: 80vh;
 }
 .left {
-  background: blue;
+  padding: 20px;
+}
+.left,
+.right {
+  color: #000;
+  background: #fff;
 }
 .center {
-  background: red;
-}
-.right {
-  background: green;
+  background: #f0f2f5;
 }
 </style>

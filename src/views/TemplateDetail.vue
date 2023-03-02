@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, PropType} from 'vue';
+import {defineComponent} from 'vue';
 import {useRoute} from 'vue-router';
 
 export default defineComponent({

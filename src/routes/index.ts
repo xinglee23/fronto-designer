@@ -13,12 +13,16 @@ const router = createRouter({
       component: Home,
       meta: {
         withHeader: true,
+        withFooter: true,
       },
     },
     {
       path: '/editor',
       name: 'editor',
       component: Editor,
+      meta: {
+        withHeader: true,
+      },
     },
     {
       path: '/template/:id',

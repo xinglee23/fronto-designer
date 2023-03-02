@@ -3,13 +3,17 @@
     <a-layout :style="{background: '#fff'}">
       <a-layout-header class="header">
         <router-link to="/">
-          <div class="page-title">Fronto</div>
+          <div class="header-icon">
+            <img :src="logo" />
+            <div class="page-title">Fronto</div>
+          </div>
         </router-link>
+        <a-button type="primary" shape="round">登陆</a-button>
       </a-layout-header>
       <a-layout-content>
         <router-view></router-view>
       </a-layout-content>
-      <a-layout-footer>Footer</a-layout-footer>
+      <a-layout-footer v-if="withFooter">Footer</a-layout-footer>
     </a-layout>
   </div>
   <div v-else>
@@ -20,6 +24,7 @@
 <script lang="ts">
 import {computed, defineComponent} from 'vue';
 import {useRoute} from 'vue-router';
+import logo from './assets/logo.svg';
 
 export default defineComponent({
   name: 'App',
@@ -27,9 +32,12 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const withHeader = computed(() => route.meta.withHeader);
+    const withFooter = computed(() => route.meta.withFooter);
 
     return {
+      logo,
       withHeader,
+      withFooter,
     };
   },
 });
@@ -42,6 +50,34 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  height: 35px;
+}
+.header-icon {
+  display: flex;
+  width: 100px;
+  height: 35px;
+}
+.page-title {
+  margin-left: 8px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 24px;
+  font-weight: 800;
+}
+img {
+  width: 35px;
+  height: 35px;
+}
+.header-icon {
+  margin-top: 16px;
+}
+.ant-btn {
+  margin-top: 16px;
 }
 </style>
