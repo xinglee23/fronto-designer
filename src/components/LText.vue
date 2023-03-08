@@ -5,6 +5,7 @@
     class="l-text-component"
     @handleClick="handleClick"
   >
+    {{ text }}
   </component>
 </template>
 <script lang="ts">
@@ -39,4 +40,18 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped></style>
+<style scoped>
+h2.l-text-component,
+p.l-text-component {
+  margin-bottom: 0;
+}
+button.l-text-component {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.l-text-component {
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  position: relative !important;
+}
+</style>
