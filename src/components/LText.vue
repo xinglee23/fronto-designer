@@ -3,7 +3,7 @@
     :is="tag"
     :style="styleProps"
     class="l-text-component"
-    @handleClick="handleClick"
+    @click="handleClick"
   >
     {{ text }}
   </component>
@@ -17,7 +17,7 @@ import {
   textStylePropNames,
 } from '../defaultProps';
 const defaultProps = transformToComponentProps(textDefaultProps);
-
+// array that contains style props
 export default defineComponent({
   name: 'l-text',
   props: {
@@ -28,11 +28,12 @@ export default defineComponent({
     ...defaultProps,
   },
   setup(props) {
+    // 重用并且简化
+    // 抽离并且获得 styleProps
     const {styleProps, handleClick} = useComponentCommon(
       props,
       textStylePropNames
     );
-
     return {
       styleProps,
       handleClick,
@@ -40,6 +41,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 h2.l-text-component,
 p.l-text-component {
