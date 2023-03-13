@@ -28,9 +28,9 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore<GlobalDataProps>();
 
-    const testData = computed(() => store.state.template);
+    const testData = computed(() => store.state.templates);
 
-    console.log('testData', store.state.template, router);
+    console.log('testData', store.state.templates, router);
 
     return {
       testData,

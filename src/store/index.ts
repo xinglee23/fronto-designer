@@ -1,73 +1,63 @@
-import {createStore} from 'vuex';
-import {v4 as uuidv4} from 'uuid';
-
-export interface UserProps {
-  isLogin: boolean;
-  userName?: string;
-}
-
-export interface TemplateProps {
-  id: number;
-  coverImg: string;
-  author: string;
-  copiedCount: number;
-}
-
+import axios, {AxiosRequestConfig} from 'axios';
+import {compile} from 'path-to-regexp';
+import {createStore, ActionContext} from 'vuex';
+import templates, {TemplatesProps} from './templates';
+import user, {UserProps} from './user';
+import editor, {EditorProps} from './editor';
+import global, {GlobalStatus} from './global';
+// import {objToQueryString} from '../helper';
+import {forEach} from 'lodash-es';
 export interface GlobalDataProps {
   user: UserProps;
-  template: TemplateProps[];
+  templates: TemplatesProps;
+  editor: EditorProps;
+  global: GlobalStatus;
 }
-
-export const testData: TemplateProps[] = [
-  {
-    id: 1,
-    coverImg:
-      'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg',
-    author: 'jack',
-    copiedCount: 1,
-  },
-  {
-    id: 2,
-    coverImg:
-      'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg',
-    author: 'jack',
-    copiedCount: 1,
-  },
-  {
-    id: 3,
-    coverImg:
-      'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg',
-    author: 'jack',
-    copiedCount: 1,
-  },
-  {
-    id: 4,
-    coverImg:
-      'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg',
-    author: 'jack',
-    copiedCount: 1,
-  },
-];
-
-const store = createStore<GlobalDataProps>({
-  state: {
-    template: testData,
-    user: {
-      isLogin: false,
-    },
-  },
-  mutations: {
-    login(state) {
-      return {...state.user, isLogin: true};
-    },
-    logout(state) {
-      return {isLogin: false};
-    },
-  },
-  getters: {
-    getTemplateById: (state) => (id: number) => {
-      return state.template.find((t) => t.id === id);
-    },
+export interface ActionPayload {
+  urlParams?: {[key: string]: any};
+  data?: any;
+  searchParams?: {[key: string]: any};
+}
+//第二步，确定参数
+export function actionWrapper(
+  url: string,
+  commitName: string,
+  config: AxiosRequestConfig = {method: 'get'}
+) {
+  // 第一步 不管三七二十一，先返回一个函数和原来的函数处理一摸一样
+  return async (
+    context: ActionContext<any, any>,
+    payload: ActionPayload = {}
+  ) => {
+    //第三部 写内部重复的逻辑
+    const {urlParams, data, searchParams} = payload;
+    const newConfig = {...config, data, opName: commitName};
+    let newURL = url;
+    if (urlParams) {
+      const toPath = compile(url, {encode: encodeURIComponent});
+      newURL = toPath(urlParams);
+      console.log(newURL);
+    }
+    if (searchParams) {
+      const search = new URLSearchParams();
+      forEach(searchParams, (value, key) => {
+        search.append(key, value);
+      });
+      newURL += '?' + search.toString();
+      // 另外一种方式
+      // newURL += '?' + objToQueryString(searchParams)
+    }
+    const resp = await axios(newURL, newConfig);
+    context.commit(commitName, {payload, ...resp.data});
+    return resp.data;
+  };
+}
+const store = createStore({
+  modules: {
+    user,
+    templates,
+    editor,
+    global,
   },
 });
 
